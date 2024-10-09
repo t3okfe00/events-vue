@@ -1,5 +1,17 @@
-<script setup></script>
+<script setup>
+import ButtonCustom from './ButtonCustom.vue'
+import SectionedCard from './SectionedCard.vue'
+</script>
 
 <template>
-  <div>This is list of booked items!</div>
+  <SectionedCard
+    ><div class="flex justify-between">
+      <div>Booking to Vue Conference</div>
+      <ButtonCustom
+        size="small"
+        variant="danger"
+        >Cancel
+      </ButtonCustom>
+    </div></SectionedCard
+  >
 </template>

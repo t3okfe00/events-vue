@@ -5,7 +5,8 @@ const props = defineProps({
   size: String,
   variant: String,
   disabled: Boolean,
-  onClick: Function
+  onClick: Function,
+  rounded: Boolean
 })
 
 const handleClick = computed(() => {
@@ -18,7 +19,7 @@ const handleClick = computed(() => {
 
 const buttonClasses = computed(() => {
   return [
-    'border-2 border-gray-400 rounded-md text-sm font-medium px-3 py-1 hover:bg-gray-300',
+    'border-2 border-gray-400 text-sm font-medium px-3 py-1 hover:bg-gray-300',
     {
       'px-2 py-0.5 text-cs': props.size === 'small',
       'px-3 py-1 text-sm': props.size === 'medium',
@@ -26,7 +27,8 @@ const buttonClasses = computed(() => {
       'border-gray-400 text-gray-700 hover:bg-gray-100': props.variant === 'default',
       'border-green-500 bg-green-500 text-white hover:bg-green-600': props.variant === 'primary',
       'border-red-500 bg-red-500 text-white hover:bg-red-600': props.variant === 'danger',
-      'opacity-50 cursor-not-allowed': props.disabled === 'true'
+      'opacity-50 cursor-not-allowed': props.disabled === 'true',
+      'rounded-md': props.rounded
     }
   ]
 })
