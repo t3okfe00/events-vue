@@ -1,5 +1,8 @@
 <script setup>
-import EventCard from '@/components/EventCard.vue'
+// import CustomCard from './components/CustomCard.vue'
+// import ButtonCustom from './components/ButtonCustom.vue'
+import BookingItem from './components/BookingItem.vue'
+import EventCard from './components/EventCard.vue'
 </script>
 
 <template>
@@ -14,9 +17,9 @@ import EventCard from '@/components/EventCard.vue'
         when="10/09/2024"
         description="One of the most amazing developer meetings in Europe!"
         @register="console.log('register run!')"
-        @hello="console.log('hello run!')"
       />
     </section>
     <h2 class="text2-xl font-medium">Your bookings</h2>
+    <BookingItem></BookingItem>
   </main>
 </template>
