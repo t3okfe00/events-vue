@@ -6,12 +6,9 @@ import SectionedCard from './SectionedCard.vue'
 const props = defineProps({
   title: String,
   when: String,
-  description: String
+  description: String,
+  handleRegisterButtonClick: Function
 })
-
-function handleRegisterButtonClick() {
-  console.log('Register button is being clicked!')
-}
 </script>
 
 <template>
