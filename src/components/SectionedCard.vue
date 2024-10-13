@@ -1,5 +1,5 @@
 <script setup>
-import CustomCard from './CustomCard.vue'
+import CustomCard from '@/components/CustomCard.vue'
 </script>
 <template>
   <CustomCard>

@@ -1,13 +1,12 @@
 <script setup>
-import ButtonCustom from './ButtonCustom.vue'
+import ButtonCustom from '@/components/ButtonCustom.vue'
 
-import SectionedCard from './SectionedCard.vue'
+import SectionedCard from '@/components/SectionedCard.vue'
 
 const props = defineProps({
   title: String,
   when: String,
-  description: String,
-  handleRegisterButtonClick: Function
+  description: String
 })
 </script>
 
@@ -28,7 +27,7 @@ const props = defineProps({
         <ButtonCustom
           size="small"
           variant="primary"
-          :onClick="handleRegisterButtonClick"
+          @click="$emit('register')"
           >Register</ButtonCustom
         >
       </section>

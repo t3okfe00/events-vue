@@ -1,5 +1,5 @@
 <script setup>
-import SectionedCard from './SectionedCard.vue'
+import SectionedCard from '@/components/SectionedCard.vue'
 </script>
 
 <template>

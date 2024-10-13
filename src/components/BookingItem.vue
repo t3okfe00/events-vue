@@ -1,6 +1,6 @@
 <script setup>
-import ButtonCustom from './ButtonCustom.vue'
-import SectionedCard from './SectionedCard.vue'
+import ButtonCustom from '@/components/ButtonCustom.vue'
+import SectionedCard from '@/components/SectionedCard.vue'
 
 const props = defineProps({
   title: String,
