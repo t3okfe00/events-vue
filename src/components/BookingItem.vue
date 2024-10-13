@@ -3,18 +3,25 @@ import ButtonCustom from './ButtonCustom.vue'
 import SectionedCard from './SectionedCard.vue'
 
 const props = defineProps({
-  title: String
+  title: String,
+  status: String
 })
+
+// eslint-disable-next-line no-unused-vars
+const emit = defineEmits(['cancelled'])
 </script>
 
 <template>
   <SectionedCard
     ><div class="flex justify-between">
-      <div>{{ props.title }}</div>
+      <div class="flex gap-4">
+        <div>{{ props.title }}</div>
+        <div>{{ props.status }}</div>
+      </div>
       <ButtonCustom
         size="small"
         variant="danger"
-        @click="() => console.log('You are click the delete but')"
+        @click="$emit('cancelled')"
         >Cancel
       </ButtonCustom>
     </div></SectionedCard

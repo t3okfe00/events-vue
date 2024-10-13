@@ -37,24 +37,67 @@ const fetchBookedEvents = async () => {
   bookedEventsLoading.value = false
 }
 
-const handleRegisterEvent = async (event) => {
+const findBookingIndexById = (id) => bookedEvents.value.findIndex((booking) => booking.id === id)
+
+const handleRegisterBooking = async (event) => {
+  if (bookedEvents.value.some((booking) => booking.eventId === event.id && booking.userId === 1)) {
+    alert('You are already registered to this event')
+    return
+  }
   console.log('Sending Register to server')
+
   const newBooking = {
     id: Date.now().toString(),
     userId: 1,
     eventId: event.id,
-    eventTitle: event.title
+    eventTitle: event.title,
+    status: 'pending'
   }
-  await fetch('http://localhost:5000/bookings', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      ...newBooking,
-      status: 'confirmed'
+
+  bookedEvents.value.push(newBooking)
+
+  try {
+    const response = await fetch('http://localhost:5000/bookings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...newBooking,
+        status: 'confirmed'
+      })
     })
-  })
+    if (response.ok) {
+      const index = findBookingIndexById(newBooking.id)
+      bookedEvents.value[index] = await response.json()
+    } else {
+      throw new Error('Failed to create a new booking')
+    }
+  } catch (error) {
+    // Handle the errors
+    console.error('Failed to register for an event:', error)
+    bookedEvents.value = bookedEvents.value.fill((booking) => booking.id !== newBooking.id)
+  }
+}
+
+const handleCancelBooking = async (bookingId) => {
+  const index = findBookingIndexById(bookingId)
+  // store the booking in case cancelation error happens
+  const bookingToCancel = bookedEvents.value[index]
+  bookedEvents.value.splice(index, 1)
+
+  try {
+    const response = await fetch(`http://localhost:5000/bookings/${bookingId}`, {
+      method: 'DELETE'
+    })
+
+    if (!response.ok) {
+      throw new Error('Error cancelling the booking')
+    }
+  } catch (error) {
+    console.error('Failed to cancel', error)
+    bookedEvents.value.splice(index, 0, bookingToCancel)
+  }
 }
 </script>
 
@@ -71,7 +114,7 @@ const handleRegisterEvent = async (event) => {
           :title="event.title"
           :when="event.when"
           :description="event.description"
-          :handleRegisterButtonClick="() => handleRegisterEvent(event)"
+          :handleRegisterButtonClick="() => handleRegisterBooking(event)"
         />
       </template>
       <template v-else>
@@ -100,6 +143,9 @@ const handleRegisterEvent = async (event) => {
         v-for="booked in bookedEvents"
         :key="booked.id"
         :title="booked.eventTitle"
+        :status="booked.status"
+        :id="booked.id"
+        @cancelled="handleCancelBooking(booked.id)"
       ></BookingItem>
     </section>
   </main>
