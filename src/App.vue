@@ -6,18 +6,18 @@ import { ref, onMounted } from 'vue'
 const bookedEvents = ref([])
 const bookedEventsLoading = ref(false)
 
-onMounted(() => {
-  fetchBookedEvents()
-})
+// onMounted(() => {
+//   fetchBookedEvents()
+// })
 
-const fetchBookedEvents = async () => {
-  bookedEventsLoading.value = true
-  const response = await fetch('http://localhost:5000/bookings')
-  const data = await response.json()
-  console.log('Fetched data: ', data)
-  bookedEvents.value = data
-  bookedEventsLoading.value = false
-}
+// const fetchBookedEvents = async () => {
+//   bookedEventsLoading.value = true
+//   const response = await fetch('http://localhost:5000/bookings')
+//   const data = await response.json()
+
+//   bookedEvents.value = data
+//   bookedEventsLoading.value = false
+// }
 
 const findBookingIndexById = (id) => bookedEvents.value.findIndex((booking) => booking.id === id)
 
