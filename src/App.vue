@@ -2,26 +2,20 @@
 import BookingItem from './components/BookingItem.vue'
 import LoadingBookingEvent from './components/LoadingBookingEvent.vue'
 import EventList from './components/EventList.vue'
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
+import { useFetch } from './composable/useFetch'
+
 const bookedEvents = ref([])
-const bookedEventsLoading = ref(false)
 
-// onMounted(() => {
-//   fetchBookedEvents()
-// })
+const [data, bookedEventsError, bookedEventsLoading] = useFetch('http://localhost:5000/bookings')
 
-// const fetchBookedEvents = async () => {
-//   bookedEventsLoading.value = true
-//   const response = await fetch('http://localhost:5000/bookings')
-//   const data = await response.json()
-
-//   bookedEvents.value = data
-//   bookedEventsLoading.value = false
-// }
+watch(data, (newData) => {
+  bookedEvents.value = newData
+})
 
 const findBookingIndexById = (id) => bookedEvents.value.findIndex((booking) => booking.id === id)
 
-const handleRegisterBooking = async (event) => {
+const handleRegister = async (event) => {
   if (bookedEvents.value.some((booking) => booking.eventId === event.id && booking.userId === 1)) {
     alert('You are already registered to this event')
     return
@@ -84,8 +78,11 @@ const handleCancelBooking = async (bookingId) => {
   <main class="container mx-auto my-8 space-y-8">
     <h1 class="text-4xl">Event Booking App</h1>
     <h2 class="text-2xl font-medium">All Events</h2>
-    <EventList @register="handleRegisterBooking"></EventList>
+    <EventList @register="handleRegister"></EventList>
     <h1 class="text-2xl font-medium">Booked Events</h1>
+
+    <h1 v-if="bookedEventsError">{{ bookedEventsError }}</h1>
+
     <h2
       v-if="bookedEventsLoading"
       class="text2-xl font-medium"

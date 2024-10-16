@@ -4,6 +4,7 @@ import LoadingEventCard from '@/components/LoadingEventCard.vue'
 import SectionedCard from './SectionedCard.vue'
 import ButtonCustom from './ButtonCustom.vue'
 import { ref, onMounted } from 'vue'
+
 const events = ref([])
 const loading = ref(false)
 const error = ref(false)
@@ -16,10 +17,8 @@ const fetchEvents = async () => {
   console.log('Fetch events run!')
   error.value = false
   loading.value = true
-
   try {
     const response = await fetch('http://localhost:5000/events')
-
     events.value = await response.json()
   } catch (e) {
     console.log('Error happened', e)
